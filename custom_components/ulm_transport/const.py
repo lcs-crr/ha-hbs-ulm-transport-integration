@@ -3,7 +3,7 @@ from datetime import timedelta
 
 DOMAIN = "ulm_transport"
 SCAN_INTERVAL = timedelta(seconds=90)
-API_ENDPOINT = "https://api.swu.de"
+API_ENDPOINT = "https://api.swu.de/mobility/v1/stop/passage/Departures"
 API_MAX_RESULTS = 10
 
 DEFAULT_ICON = "mdi:clock"

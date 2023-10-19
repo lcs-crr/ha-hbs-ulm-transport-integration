@@ -25,8 +25,8 @@ class Departure:
 
         # get timestamp
         time_str = source.get("DepartureTimeActual") or source.get("DepartureTimeScheduled")
-        # Parse the timestamp
-        timestamp = datetime.fromisoformat(time_str)
+        # Parse the timestamp and drop timezone information
+        timestamp = datetime.fromisoformat(time_str).replace(tzinfo=None)
         # Get the current time
         now = datetime.now()
         # Calculate the difference in time
