@@ -10,7 +10,7 @@ Custom sensor component and lovelace card that displays upcoming departures from
 
 The component consists of two parts:
 
-1. A sensor, which tracks departures via VVO Public API every 90 seconds
+1. A sensor, which tracks departures via SWU Public API every 90 seconds
 2. A widget (card) for the lovelace dashboard, which displays upcoming transport in a nice way
 
 We will look at the installation of each of them separately below. But first, let's learn how to find the Stop IDs.
@@ -19,13 +19,7 @@ We will look at the installation of each of them separately below. But first, le
 
 Unfortunately, I didn't have time to figure out a proper user-friendly approach of adding new components to Home Assistant, so you will have to do some routine work of finding the IDs of the nearest transport stops to you. Sorry about that :)
 
-Simply use this URL: **https://webapi.vvo-online.de/tr/pointfinder?format=JSON&stopsOnly=True&query=%27Dresden%20Zoo%27&dvb=True**
-
-Replace `Ulm Zoo` with the name of your own stop.
-
-Or use a nice [dvbpy](https://github.com/kiliankoe/dvbpy) library for that :)
-
-![](./docs/screenshots/stop-id-api.png)
+Simply use this URL and search for the desired stop. You need to copy the 4-digit stop_code.  **https://gtfs.swu.de/daten/stops.txt**
 
 ### Install sensor component
 
@@ -39,10 +33,10 @@ Or use a nice [dvbpy](https://github.com/kiliankoe/dvbpy) library for that :)
 sensor:
   - platform: ulm_transport
     departures:
-      - name: "Ulm Zoo" # free-form name, only for display purposes
-        stop_id: 33000112 # actual Stop ID for the API
-      - name: "Altmarkt" # you can add more that one stop to track
-        stop_id: 33000004
+      - name: "Willy-Brandt-Platz" # free-form name, only for display purposes
+        stop_id: 1050 # actual Stop ID for the API
+      - name: "Ehinger Tor" # you can add more that one stop to track
+        stop_id: 1350
         
         # Optional parameter with value in minutes that hide transport closer than N minutes
         # walking_time: 5
@@ -67,8 +61,8 @@ When sensor component is installed and working you can add the new fancy widget 
   show_stop_name: true # show or hide the name of your stop in card title
   max_entries: 8 # number of upcoming departures to show (max: 10)
   entities:
-    - sensor.ulm_zoo # use your entity IDs here
-    - sensor.altmarkt # they might be different from mine
+    - sensor.willybrandtplatz # use your entity IDs here
+    - sensor.ehingertor # they might be different from mine
 ```
 
 ## 🚨 Update
@@ -80,27 +74,27 @@ If you want to change any styles, font size or layout — the easiest way is to 
 
 ## 👩‍💻 Technical details
 
-This sensor uses VVO Public API to fetch all transport information.
+This sensor uses SWU Public API to fetch all transport information.
 
 The component updates every 60-90 seconds, but it makes a separate request for each stop.
-
-The VVO API is a bit unstable (as you can guess), so sometimes it gives random 503 or Timeout errors. This is normal. I haven't found how to overcome this, but it doesn't cause any problems other than warning messages in the logs.
 
 After fetching the API, it creates one entity for each stop and writes 10 upcoming departures into `attributes.departures`. The entity state is not really used anywhere, it just shows the next departure in a human-readable format. If you have any ideas how to use it better — welcome to Github Issues.
 
 ## ❤️ Contributions
 
-Contributions are welcome. Feel free to [open a PR](https://github.com/VDenisyuk/home-assistant-transport/pulls) and send it to review. If you are unsure, [open an Issue](https://github.com/VDenisyuk/home-assistant-transport/issues) and ask for advice.
+Contributions are welcome. Feel free to [open a PR](https://github.com/horsebatterystaple/home-assistant-transport-ulm/pulls) and send it to review. If you are unsure, [open an Issue](https://github.com/horsebatterystaple/home-assistant-transport-ulm/issues) and ask for advice.
 
 ## 🐛 Bug reports and feature requests
 
 Since this is my small hobby project, I cannot guarantee you a 100% support or any help with configuring your dashboards. I hope for your understanding.
 
-- **If you find a bug** - open [an Issue](https://github.com/VDenisyuk/home-assistant-transport/issues) and describe the exact steps to reproduce it. Attach screenshots, copy all logs and other details to help me find the problem.
+- **If you find a bug** - open [an Issue](https://github.com/horsebatterystaple/home-assistant-transport-ulm/issues) and describe the exact steps to reproduce it. Attach screenshots, copy all logs and other details to help me find the problem.
 
 ## Credits
 
+This module is a fork of [VDenisyuk repo](https://github.com/VDenisyuk/home-assistant-transport/) made for Dresden.
 This module is a fork of [vas3k repo](https://github.com/vas3k/home-assistant-berlin-transport) made for Berlin.
+
 
 ## 👮‍♀️ License
 
