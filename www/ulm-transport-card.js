@@ -5,7 +5,7 @@ import {
   nothing
 } from "https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js";
 
-class DresdenTransportCard extends LitElement {
+class UlmTransportCard extends LitElement {
     static get properties() {
     return {
       hass: {},
@@ -144,4 +144,4 @@ class DresdenTransportCard extends LitElement {
     `;
   }
 }
-customElements.define("dresden-transport-card", DresdenTransportCard);
+customElements.define("ulm-transport-card", UlmTransportCard);

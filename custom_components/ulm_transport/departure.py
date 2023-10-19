@@ -20,20 +20,30 @@ class Departure:
 
     @classmethod
     def from_dict(cls, source):
-        line_type = source.get("Mot")
+        line_type = source.get("VehicleCategory")
         line_visuals = TRANSPORT_TYPE_VISUALS.get(line_type) or {}
-        time_str = source.get("RealTime") or source.get("ScheduledTime")
-        res = re.search(r'\d+', time_str) 
-        time = int(int(res.group()) / 1000)
-        gap = round((datetime.fromtimestamp(time) - datetime.now()).total_seconds() / 60)
+
+        # get timestamp
+        time_str = source.get("DepartureTimeActual") or source.get("DepartureTimeScheduled")
+        # Parse the timestamp and drop timezone information
+        timestamp = datetime.fromisoformat(time_str).replace(tzinfo=None)
+        # Get the current time
+        now = datetime.now()
+        # Calculate the difference in time
+        time_difference = now - timestamp
+        # Get the total difference in minutes
+        gap = int(time_difference.total_seconds() / 60)
+        # Format the datetime object to display hour and minute
+        time = timestamp.strftime("%H:%M")
+
         return cls(
-            line_name=source.get("LineName"),
+            line_name=source.get("RouteName"),
             line_type=line_type,
             gap=gap,
-            timestamp=time,
-            time=datetime.fromtimestamp(time).strftime("%H:%M"),
-            direction=source.get("Direction"),
-            platform=source.get("Platform", {}).get("Name"),
+            timestamp=timestamp,
+            time=time,
+            direction=source.get("DepartureDirectionText"),
+            platform=source.get("PlatformName"),
             icon=line_visuals.get("icon") or DEFAULT_ICON,
             bg_color=source.get("line", {}).get("color", {}).get("bg"),
             fallback_color=line_visuals.get("color"),

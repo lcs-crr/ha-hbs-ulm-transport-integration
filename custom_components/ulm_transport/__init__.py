@@ -1,4 +1,4 @@
-"""Dresden (VVO) transport integration."""
+"""Ulm (SWU) transport integration."""
 from __future__ import annotations
 
 from homeassistant.core import HomeAssistant
