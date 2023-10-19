@@ -1,14 +1,14 @@
 {
-  "domain": "dresden_transport",
-  "name": "Dresden (VVO) transport",
+  "domain": "ulm_transport",
+  "name": "Ulm (SWU) transport",
   "config_flow": true,
-  "documentation": "https://github.com/vas3k/home-assistant-berlin-transport",
+  "documentation": "https://github.com/horsebatterystaple/home-assistant-transport-ulm",
   "requirements": [],
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
   "dependencies": [],
-  "codeowners": ["@vas3k", "@VDenisiuk"],
+  "codeowners": ["@vas3k", "@VDenisiuk", "@horsebatterystaple"],
   "iot_class": "cloud_polling",
   "version": "0.1.0"
 }

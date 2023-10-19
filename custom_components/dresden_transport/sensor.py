@@ -1,5 +1,5 @@
 #pylint: disable=duplicate-code
-"""Dresden (VVO) transport integration."""
+"""Ulm (SWU) transport integration."""
 from __future__ import annotations
 import logging
 from typing import Optional
@@ -120,15 +120,8 @@ class TransportSensor(SensorEntity):
             response = requests.get(
                 url=f"{API_ENDPOINT}",
                 params={
-                    "time": (
-                        datetime.now() + timedelta(minutes=self.walking_time)
-                    ).isoformat(),
-                    "format": "json",
-                    "limit": API_MAX_RESULTS,
-                    "stopID": self.stop_id,
-                    "isarrival": False,
-                    "shorttermchanges": True,
-                    "mentzonly": False,
+                    "Limit": API_MAX_RESULTS,
+                    "StopNumber": self.stop_id,
                 },
                 timeout=30,
             )
@@ -144,14 +137,18 @@ class TransportSensor(SensorEntity):
 
         # parse JSON response
         try:
-            departures = response.json().get('Departures')
+            departures = response.json().get('StopPassage', {}).get('DepartureData')
         except requests.exceptions.InvalidJSONError as ex:
             _LOGGER.error(f"API invalid JSON: {ex}")
             return []
 
         # convert api data into objects
         unsorted = [Departure.from_dict(departure) for departure in departures]
-        return sorted(unsorted, key=lambda d: d.timestamp)
+
+        # sorting not needed because api returns sorted data
+        # return sorted(unsorted, key=lambda d: d.timestamp)
+
+        return unsorted
 
     def next_departure(self):
         if self.departures and isinstance(self.departures, list):
