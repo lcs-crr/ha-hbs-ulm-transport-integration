@@ -21,7 +21,7 @@ class Departure:
 
         # As the API fails to realiably provide a route type, we need to do it ourselfs
         route_number = source.get("RouteNumber")
-        if route_number == 1 or 2:
+        if route_number == 1 or route_number == 2:
             route_type = "tram"
         else:
             route_type = "bus"
