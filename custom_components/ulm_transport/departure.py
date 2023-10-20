@@ -1,47 +1,44 @@
-#pylint: disable=duplicate-code
 from dataclasses import dataclass
 from datetime import datetime
-import re
 from .const import TRANSPORT_TYPE_VISUALS, DEFAULT_ICON
 
 
 @dataclass
 class Departure:
-    line_name: str
-    line_type: str
-    timestamp: int
+    route_number: int
+    route_type: str | None = None
     time: datetime
-    gap: int
-    platform: str | None = None
+    time_str: str | None = None
+    countdown: int
     direction: str | None = None
+    platform: str | None = None
     icon: str | None = None
     bg_color: str | None = None
     fallback_color: str | None = None
 
     @classmethod
     def from_dict(cls, source):
-        line_type = source.get("VehicleCategory")
-        line_visuals = TRANSPORT_TYPE_VISUALS.get(line_type) or {}
 
-        # get timestamp
-        time_str = source.get("DepartureTimeActual") or source.get("DepartureTimeScheduled")
-        # Parse the timestamp and drop timezone information
-        timestamp = datetime.fromisoformat(time_str).replace(tzinfo=None)
-        # Get the current time
-        now = datetime.now()
-        # Calculate the difference in time
-        time_difference = now - timestamp
-        # Get the total difference in minutes
-        gap = int(time_difference.total_seconds() / 60)
-        # Format the datetime object to display hour and minute
-        time = timestamp.strftime("%H:%M")
+        # As the API fails to realiably provide a route type, we need to do it ourselfs
+        route_number = source.get("RouteNumber")
+        if route_number == 1 or 2:
+            route_type = "tram"
+        else:
+            route_type = "bus"
+
+        line_visuals = TRANSPORT_TYPE_VISUALS.get(route_type) or {}
+
+        # get departure time, convert from iso to datetime
+        time = datetime.fromisoformat(source.get("DepartureTimeActual"))
+        # drop tz info and format "H:M"
+        time_str = time.replace(tzinfo=None).strftime("%H:%M")
 
         return cls(
-            line_name=source.get("RouteName"),
-            line_type=line_type,
-            gap=gap,
-            timestamp=timestamp,
-            time=time,
+            route_number=route_number,
+            route_type=route_type,
+            time = time,
+            time_str = time_str,
+            countdown = source.get("DepartureCountdown") / 60,
             direction=source.get("DepartureDirectionText"),
             platform=source.get("PlatformName"),
             icon=line_visuals.get("icon") or DEFAULT_ICON,
@@ -51,11 +48,10 @@ class Departure:
 
     def to_dict(self):
         return {
-            "line_name": self.line_name,
-            "line_type": self.line_type,
-            "time": self.time,
-            "gap": self.gap,
+            "route_number": self.route_number,
             "platform": self.platform,
             "direction": self.direction,
+            "countdown": self.countdown,
+            "time_str": self.time,
             "color": self.fallback_color or self.bg_color,
         }

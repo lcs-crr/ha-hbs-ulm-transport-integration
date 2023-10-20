@@ -30,16 +30,13 @@ class UlmTransportCard extends LitElement {
                   html`
                     <div class="departure">
                       <div class="line">
-                          <div class="line-icon" style="background-color: ${departure.color}">${departure.line_name}</div>
+                          <div class="line-icon" style="background-color: ${departure.color}">${departure.route_number}</div>
                           <div class="line-pl">${departure.platform}</div>
                       </div>
                       <div class="direction">${departure.direction}</div>
                       <div class="time-slot">
-                          ${this.config.show_gap
-                            ? html`<div class="todeparture">(+${departure.gap})</div>`
-                            : nothing
-                          } 
-                          <div class="time">${departure.time}</div>
+                          <div class="todeparture">(+${departure.countdown})</div>
+                          <div class="time">${departure.time_str}</div>
                       </div>
                     </div>
                 `)}

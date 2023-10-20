@@ -1,4 +1,3 @@
-#pylint: disable=duplicate-code
 """Ulm (SWU) transport integration."""
 from __future__ import annotations
 import logging
@@ -103,7 +102,7 @@ class TransportSensor(SensorEntity):
     def state(self) -> str:
         next_departure = self.next_departure()
         if next_departure:
-            return f"Next {next_departure.line_name} at {next_departure.time}"
+            return f"Next {next_departure.route_number} in {next_departure.countdown} minutes, at {next_departure.time_str}."
         return "N/A"
 
     @property
