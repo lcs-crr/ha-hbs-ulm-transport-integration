@@ -52,6 +52,6 @@ class Departure:
             "platform": self.platform,
             "direction": self.direction,
             "countdown": self.countdown,
-            "time_str": self.time,
+            "time_str": self.time_str,
             "color": self.fallback_color or self.bg_color,
         }
