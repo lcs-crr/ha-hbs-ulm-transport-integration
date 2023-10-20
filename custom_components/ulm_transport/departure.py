@@ -36,7 +36,7 @@ class Departure:
         return cls(
             route_number=route_number,
             time = time,
-            countdown = source.get("DepartureCountdown") / 60,
+            countdown = int(source.get("DepartureCountdown") / 60),
             route_type=route_type,
             time_str = time_str,
             direction=source.get("DepartureDirectionText"),
