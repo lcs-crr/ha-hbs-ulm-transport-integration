@@ -6,10 +6,10 @@ from .const import TRANSPORT_TYPE_VISUALS, DEFAULT_ICON
 @dataclass
 class Departure:
     route_number: int
-    route_type: str | None = None
     time: datetime
-    time_str: str | None = None
     countdown: int
+    route_type: str | None = None
+    time_str: str | None = None
     direction: str | None = None
     platform: str | None = None
     icon: str | None = None
@@ -35,10 +35,10 @@ class Departure:
 
         return cls(
             route_number=route_number,
-            route_type=route_type,
             time = time,
-            time_str = time_str,
             countdown = source.get("DepartureCountdown") / 60,
+            route_type=route_type,
+            time_str = time_str,
             direction=source.get("DepartureDirectionText"),
             platform=source.get("PlatformName"),
             icon=line_visuals.get("icon") or DEFAULT_ICON,
