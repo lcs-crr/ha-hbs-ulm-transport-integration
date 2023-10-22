@@ -26,7 +26,9 @@ class UlmTransportCard extends LitElement {
               : nothing
             }
               <div class="departures">
-                ${stateObj.attributes.departures.slice(0, maxEntries).map((departure) => 
+                ${stateObj.attributes.departures.length === 0
+                  ? html`<div class="no-data">No daperture data available.</div>`
+                  : stateObj.attributes.departures.slice(0, maxEntries).map((departure) => 
                   html`
                     <div class="departure">
                       <div class="line">
@@ -83,6 +85,13 @@ class UlmTransportCard extends LitElement {
             padding-bottom: 20px;
             display: flex;
             flex-direction: column;
+        }
+        .no-data {
+            padding-top: 10px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
         }
         .departure {
             padding-top: 10px;
