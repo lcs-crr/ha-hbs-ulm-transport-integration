@@ -15,6 +15,8 @@ class UlmTransportCard extends LitElement {
 
   render() {
     const maxEntries = this.config.max_entries || 10;
+    const showPlatform = this.config.show_platform || true;
+    const showCountdown = this.config.show_countdown || true;
     return html`
     ${this.config.entities.map(ent => {
         const stateObj = this.hass.states[ent];
@@ -33,11 +35,17 @@ class UlmTransportCard extends LitElement {
                     <div class="departure">
                       <div class="line">
                           <div class="line-icon" style="background-color: ${departure.color}">${departure.route_number}</div>
-                          <div class="line-pl">${departure.platform}</div>
+                          ${this.config.show_platform
+                            ? html`<div class="line-pl">${departure.platform}</div>`
+                            : nothing
+                          } 
                       </div>
                       <div class="direction">${departure.direction}</div>
                       <div class="time-slot">
-                          <div class="todeparture">(+${departure.countdown})</div>
+                          ${this.config.show_countdown
+                            ? html`<div class="countdown">(+${departure.countdown})</div>`
+                            : nothing
+                          } 
                           <div class="time">${departure.time_str}</div>
                       </div>
                     </div>
@@ -138,7 +146,7 @@ class UlmTransportCard extends LitElement {
             font-weight: 700;
             padding-right: 0px;
         }
-        .todeparture {
+        .countdown {
             font-size: 12px;
         }
         .time-slot {
