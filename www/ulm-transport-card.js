@@ -29,7 +29,7 @@ class UlmTransportCard extends LitElement {
             }
               <div class="departures">
                 ${stateObj.attributes.departures.length === 0
-                  ? html`<div class="no-data">No daperture data available.</div>`
+                  ? html`<div class="no-data">Keine Abfahrten in naher Zukunft.</div>`
                   : stateObj.attributes.departures.slice(0, maxEntries).map((departure) => 
                   html`
                     <div class="departure">
