@@ -96,10 +96,6 @@ class UlmTransportCard extends LitElement {
         }
         .no-data {
             padding-top: 10px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
         }
         .departure {
             padding-top: 10px;
