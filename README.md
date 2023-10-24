@@ -1,4 +1,4 @@
-# Ulm (SWU) transport widget for Home Assistant
+# Ulm SWU transport widget for Home Assistant
 
 Custom sensor component and lovelace card that displays upcoming departures from your defined public transport stops for Ulm (and SWU area).
 
