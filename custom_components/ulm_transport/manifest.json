@@ -1,6 +1,6 @@
 {
   "domain": "ulm_transport",
-  "name": "Ulm (SWU) transport",
+  "name": "Ulm SWU transport widget",
   "config_flow": true,
   "documentation": "https://github.com/horsebatterystaple/home-assistant-transport-ulm",
   "requirements": [],
