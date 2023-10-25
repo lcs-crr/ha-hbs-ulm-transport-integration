@@ -1,4 +1,4 @@
-# Ulm SWU transport widget for Home Assistant
+# Ulm (SWU) transport widget for Home Assistant
 
 Custom sensor component and lovelace card that displays upcoming departures from your defined public transport stops for Ulm (and SWU area).
 
@@ -60,8 +60,6 @@ When sensor component is installed and working you can add the new fancy widget 
 - type: custom:ulm-transport-card
   show_stop_name: true # show or hide the name of your stop in card title
   max_entries: 8 # number of upcoming departures to show (max: 10)
-  #show_platform: true # show or hide the platform in the widget (accepted values: true, false; optional parameter; defaults to true)
-  #show_countdown: true # show or hide the remaining time until departure in the widget (accepted values: true, false;optional parameter; defaults to true)
   entities:
     - sensor.willybrandtplatz # use your entity IDs here
     - sensor.ehingertor # they might be different from mine
@@ -76,7 +74,7 @@ If you want to change any styles, font size or layout — the easiest way is to 
 
 ## 👩‍💻 Technical details
 
-This sensor uses SWU Public API to fetch all transport information. You can find more information on the API over here: https://api.swu.de/
+This sensor uses SWU Public API to fetch all transport information.
 
 The component updates every 60-90 seconds, but it makes a separate request for each stop.
 
@@ -94,7 +92,8 @@ Since this is my small hobby project, I cannot guarantee you a 100% support or a
 
 ## Credits
 
-This module is a fork of VDenisyuk's project [VDenisyuk repo](https://github.com/VDenisyuk/home-assistant-transport/), which again is a fork of vas3k's project [vas3k repo](https://github.com/vas3k/home-assistant-berlin-transport). Thanks for doing the heavy lifting! :-)
+This module is a fork of [VDenisyuk repo](https://github.com/VDenisyuk/home-assistant-transport/) made for Dresden.
+This module is a fork of [vas3k repo](https://github.com/vas3k/home-assistant-berlin-transport) made for Berlin.
 
 
 ## 👮‍♀️ License
