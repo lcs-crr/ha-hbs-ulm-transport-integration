@@ -1,6 +1,6 @@
 {
   "domain": "ulm_transport",
-  "name": "Ulm SWU transport widget",
+  "name": "Ulm (SWU) transport",
   "config_flow": true,
   "documentation": "https://github.com/horsebatterystaple/home-assistant-transport-ulm",
   "requirements": [],
@@ -10,5 +10,5 @@
   "dependencies": [],
   "codeowners": ["@vas3k", "@VDenisiuk", "@horsebatterystaple"],
   "iot_class": "cloud_polling",
-  "version": "1.0.0"
+  "version": "0.1.0"
 }
