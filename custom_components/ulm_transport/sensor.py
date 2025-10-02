@@ -102,7 +102,7 @@ class TransportSensor(SensorEntity):
     def state(self) -> str:
         next_departure = self.next_departure()
         if next_departure:
-            return f"Next {next_departure.route_number} in {next_departure.countdown} minutes, at {next_departure.time_str}."
+            return f"{next_departure.route_type.capitalize()} {next_departure.route_number} to {next_departure.direction} in {next_departure.countdown} minutes, at {next_departure.time_str}."
         return "N/A"
 
     @property
@@ -141,11 +141,11 @@ class TransportSensor(SensorEntity):
             _LOGGER.error(f"API invalid JSON: {ex}")
             return []
 
-        # convert api data into objects
-        if departures is not None:
-            return [Departure.from_dict(departure) for departure in departures]
-        else:
-            return []
+    # convert api data into objects
+    if departures is not None:
+        return [Departure.from_dict(departure) for departure in departures if datetime.fromisoformat(departure['DepartureTimeActual']).replace(tzinfo=None) > (datetime.now() + timedelta(minutes=self.walking_time))]
+    else:
+        return []
 
     def next_departure(self):
         if self.departures and isinstance(self.departures, list):
